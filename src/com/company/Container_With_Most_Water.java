@@ -6,20 +6,19 @@ public class Container_With_Most_Water {
         System.out.println(maxArea(height));
     }
     public static int maxArea(int[] height) {
-        int max = 0;
-        int h = 0;
+        int maxHeight = Integer.MIN_VALUE;
+        int minBuilding = Integer.MAX_VALUE;
         int i = 0;
         int j = height.length-1;
-
-        while(i < j){
-            if (height[i] <= height[j]) {
-                h = height[i] * (j - i);
-                if (h > max) max = h;
-                break;
+        while(i <= j){
+            int diff = height[i] - height[j];
+            minBuilding = Math.min(height[i], height[j]);
+            maxHeight = Math.max(maxHeight, minBuilding*(j-i));
+            if(diff >= 0){
+                j--;
             }
-            else j--;
-            }
-
-        return max;
+            else i++;
+        }
+        return maxHeight;
     }
 }
