@@ -21,9 +21,11 @@ public class TopKFrequent {
                 hmap.put(nums[i] , 1);
             }
         }
+        System.out.println(hmap);
         int n = hmap.size();
         int[] arr = new int[n];
         int i = 0;
+
         for(Map.Entry<Integer, Integer> entry: hmap.entrySet()){
             arr[i++] = entry.getValue();
         }
@@ -37,7 +39,8 @@ public class TopKFrequent {
             if(entry.getValue() == arr[x]){
                 res[i++] = entry.getKey();
                 x--;
-                if(k == i) break;
+                k--;
+                if(k < 0) break;
             }
         }
         return res;
