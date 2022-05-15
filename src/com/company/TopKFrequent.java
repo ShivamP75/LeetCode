@@ -6,12 +6,13 @@ import java.util.Map;
 
 public class TopKFrequent {
     public static void main(String[] args) {
-        int[] arr = {3,2,3,1,2,4,5,5,6,7,7,8,2,3,1,1,1,10,11,5,6,2,4,7,8,5,6};
-        int k = 10;
+        int[] arr = {1,1,1,2,2,3};
+        int k = 2;
         System.out.println(Arrays.toString(topKFrequent(arr,k)));
 
     }
     public static int[] topKFrequent(int[] nums, int k) {
+
         HashMap<Integer, Integer> hmap = new HashMap<>();
         for(int i = 0;i<nums.length;i++){
             if(hmap.containsKey(nums[i])){
@@ -21,28 +22,40 @@ public class TopKFrequent {
                 hmap.put(nums[i] , 1);
             }
         }
-        System.out.println(hmap);
-        int n = hmap.size();
-        int[] arr = new int[n];
-        int i = 0;
 
-        for(Map.Entry<Integer, Integer> entry: hmap.entrySet()){
-            arr[i++] = entry.getValue();
+        Pair[] arr = new Pair[hmap.size()];
+        int i = 0;
+        for(Map.Entry<Integer, Integer> entry : hmap.entrySet()){
+            arr[i] = new Pair(entry.getValue(), entry.getKey());
+            i++;
         }
 
         Arrays.sort(arr);
-        System.out.println(Arrays.toString(arr));
+
+        for (int j = 0; j < arr.length; j++) {
+            System.out.println(arr[j].count + " " + arr[j].num);
+        }
+
         int[] res = new int[k];
-        i = 0;
-        int x = arr.length-1;
-        for(Map.Entry<Integer, Integer> entry: hmap.entrySet()){
-            if(entry.getValue() == arr[x]){
-                res[i++] = entry.getKey();
-                x--;
-                k--;
-                if(k < 0) break;
-            }
+        int n = arr.length-1;
+        for (int j = 0; j < res.length; j++) {
+            res[j] = arr[n--].num;
         }
         return res;
+    }
+
+    static class Pair implements Comparable<Pair> {
+        int count;
+        int num;
+
+        Pair(int count, int num){
+            this.count = count;
+            this.num = num;
+        }
+
+        @Override
+        public int compareTo(Pair o) {
+            return this.count - o.count;
+        }
     }
 }
